@@ -1,0 +1,220 @@
+{
+ "name": "Demo area (fictional)",
+ "map_dir": "map",
+ "zones": [
+  {
+   "id": "riverside",
+   "name": "Riverside",
+   "aliases": [
+    "riverside apts",
+    "quay rd"
+   ]
+  },
+  {
+   "id": "oak",
+   "name": "Oak Hollow",
+   "aliases": [
+    "birch ct",
+    "elm way",
+    "oak"
+   ]
+  },
+  {
+   "id": "mill",
+   "name": "Millbrook",
+   "aliases": [
+    "weir ln",
+    "church st",
+    "mill"
+   ]
+  }
+ ],
+ "nodes": {
+  "depot": {
+   "label": "Depot",
+   "x": 50,
+   "y": 130
+  },
+  "j": {
+   "label": "Junction",
+   "x": 180,
+   "y": 40
+  },
+  "riverside": {
+   "label": "Riverside",
+   "x": 310,
+   "y": 60
+  },
+  "oak": {
+   "label": "Oak Hollow",
+   "x": 190,
+   "y": 220
+  },
+  "mill": {
+   "label": "Millbrook",
+   "x": 310,
+   "y": 200
+  }
+ },
+ "roads": [
+  [
+   "Bridge St",
+   "depot",
+   "riverside",
+   8
+  ],
+  [
+   "Hill Rd",
+   "depot",
+   "j",
+   12
+  ],
+  [
+   "Ridge Ln",
+   "j",
+   "riverside",
+   14
+  ],
+  [
+   "Main St",
+   "depot",
+   "oak",
+   10
+  ],
+  [
+   "Cedar Ave",
+   "j",
+   "oak",
+   7
+  ],
+  [
+   "Mill Rd",
+   "oak",
+   "mill",
+   9
+  ]
+ ],
+ "stock": {
+  "water": 20,
+  "food": 12,
+  "medicine": 2,
+  "blankets": 8
+ },
+ "reports": [
+  {
+   "zone": "riverside",
+   "lang": "en",
+   "need": "water",
+   "qty": 8,
+   "urg": "high",
+   "win": 30,
+   "conf": 0.94,
+   "miss": [],
+   "last4": "0117",
+   "addr": "Riverside, 4 Quay Rd",
+   "access": "Needs ground-floor drop-off (mobility)",
+   "en": "",
+   "text": "Water is up to our porch. My mother is elderly and we have had no clean water since last night. 4 people."
+  },
+  {
+   "zone": "oak",
+   "lang": "es",
+   "need": "medicine",
+   "qty": 2,
+   "urg": "high",
+   "win": 25,
+   "conf": 0.81,
+   "miss": [
+    "Exact street address"
+   ],
+   "last4": "0132",
+   "addr": "Oak Hollow, Birch Ct",
+   "en": "We need medicine for my husband’s insulin and we have no refrigerator.",
+   "text": "Necesitamos medicinas para la insulina de mi esposo, no tenemos refrigerador."
+  },
+  {
+   "zone": "mill",
+   "lang": "vi",
+   "need": "blankets",
+   "qty": 6,
+   "urg": "medium",
+   "win": 60,
+   "conf": 0.88,
+   "miss": [],
+   "last4": "0165",
+   "addr": "Millbrook, 9 Weir Ln",
+   "en": "We need blankets for 6 people.",
+   "text": "Chúng tôi cần chăn cho 6 người."
+  },
+  {
+   "zone": "riverside",
+   "lang": "zh",
+   "need": "shelter",
+   "qty": 3,
+   "urg": "high",
+   "win": 40,
+   "conf": 0.9,
+   "miss": [],
+   "last4": "0110",
+   "addr": "Riverside Apts, Bldg 12",
+   "en": "Three of us need shelter. Our home is flooded.",
+   "text": "我们三口人需要避难所，家里已经进水。"
+  },
+  {
+   "zone": "riverside",
+   "lang": "en",
+   "need": "food",
+   "qty": 5,
+   "urg": "medium",
+   "win": 60,
+   "conf": 0.86,
+   "miss": [],
+   "last4": "0181",
+   "addr": "Riverside Apts, Bldg 12",
+   "en": "",
+   "text": "Family of 5 needs food, the kids haven’t eaten since morning. Same building as the family in unit 2."
+  },
+  {
+   "zone": "oak",
+   "lang": "es",
+   "need": "medicine",
+   "qty": 2,
+   "urg": "high",
+   "win": 25,
+   "conf": 0.72,
+   "miss": [],
+   "last4": "0132",
+   "addr": "Oak Hollow, Birch Ct",
+   "en": "My husband needs insulin, please hurry.",
+   "text": "Mi esposo necesita insulina, por favor, rápido."
+  },
+  {
+   "zone": "mill",
+   "lang": "en",
+   "need": "food",
+   "qty": 10,
+   "urg": "high",
+   "win": 45,
+   "conf": 0.9,
+   "miss": [],
+   "last4": "0108",
+   "addr": "Millbrook, Church St",
+   "en": "",
+   "text": "Food for 10 people at the church. Children and older adults, basement flooded."
+  },
+  {
+   "zone": "oak",
+   "lang": "en",
+   "need": "blankets",
+   "qty": 4,
+   "urg": "low",
+   "win": 90,
+   "conf": 0.92,
+   "miss": [],
+   "last4": "0149",
+   "addr": "Oak Hollow, 22 Elm Way",
+   "en": "",
+   "text": "Need blankets, 4 of us. Power is out and it is cold."
+  }
+ ]
+}

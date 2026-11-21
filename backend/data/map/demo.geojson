@@ -1,0 +1,321 @@
+{
+ "type": "FeatureCollection",
+ "name": "Demo area (fictional)",
+ "attribution": "Fictional demo area. Vulnerability and signal layers are illustrative.",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "layer": "zone",
+    "zone": "riverside",
+    "name": "Riverside",
+    "vulnerability": "medium",
+    "vulnerability_source": "demo value"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       0.048,
+       -0.002
+      ],
+      [
+       0.075,
+       -0.003
+      ],
+      [
+       0.0745,
+       -0.023
+      ],
+      [
+       0.047,
+       -0.0235
+      ],
+      [
+       0.048,
+       -0.002
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "layer": "zone",
+    "zone": "oak",
+    "name": "Oak Hollow",
+    "vulnerability": "low",
+    "vulnerability_source": "demo value"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       0.02,
+       -0.033
+      ],
+      [
+       0.049,
+       -0.032
+      ],
+      [
+       0.05,
+       -0.053
+      ],
+      [
+       0.021,
+       -0.053
+      ],
+      [
+       0.02,
+       -0.033
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "layer": "zone",
+    "zone": "mill",
+    "name": "Millbrook",
+    "vulnerability": "high",
+    "vulnerability_source": "demo value"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       0.054,
+       -0.033
+      ],
+      [
+       0.075,
+       -0.032
+      ],
+      [
+       0.075,
+       -0.053
+      ],
+      [
+       0.0545,
+       -0.053
+      ],
+      [
+       0.054,
+       -0.033
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "layer": "water",
+    "name": "River"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       0.044,
+       -0.0262
+      ],
+      [
+       0.076,
+       -0.025
+      ],
+      [
+       0.076,
+       -0.029
+      ],
+      [
+       0.044,
+       -0.03
+      ],
+      [
+       0.044,
+       -0.0262
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "layer": "no_signal",
+    "name": "No mobile signal",
+    "source": "demo value (FCC coverage or DIRS outage data in a real deployment)"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       0.056,
+       -0.0345
+      ],
+      [
+       0.0745,
+       -0.034
+      ],
+      [
+       0.0745,
+       -0.052
+      ],
+      [
+       0.0565,
+       -0.052
+      ],
+      [
+       0.056,
+       -0.0345
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "layer": "road",
+    "name": "Bridge St"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      0.009,
+      -0.027
+     ],
+     [
+      0.063,
+      -0.012
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "layer": "road",
+    "name": "Hill Rd"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      0.009,
+      -0.027
+     ],
+     [
+      0.033,
+      -0.009
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "layer": "road",
+    "name": "Ridge Ln"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      0.033,
+      -0.009
+     ],
+     [
+      0.063,
+      -0.012
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "layer": "road",
+    "name": "Main St"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      0.009,
+      -0.027
+     ],
+     [
+      0.035,
+      -0.044
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "layer": "road",
+    "name": "Cedar Ave"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      0.033,
+      -0.009
+     ],
+     [
+      0.035,
+      -0.044
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "layer": "road",
+    "name": "Mill Rd"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      0.035,
+      -0.044
+     ],
+     [
+      0.065,
+      -0.043
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "layer": "depot",
+    "name": "Depot"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     0.009,
+     -0.027
+    ]
+   }
+  }
+ ]
+}

@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Relief Coordination</title>
+<!-- Dashboard v2. Planning rules and backend calls are the same as dashboard.html (v1); this file
+     changes layout, adds map layers, tabs, the connectivity alert and "Set area". v1 is untouched:
+     /dashboard/v1 always serves it, and DASHBOARD_UI=v1 (the default) keeps it at /dashboard. -->
+<style>
+:root{--bg:#eef5fb;--panel:#fff;--ink:#0f2a4a;--mute:#4a6280;--line:#d6e2ef;--navy:#0f2a4a;--blue:#1f6f8b;--hi:#c2410c;--lo:#1f5fa8;--ok:#2e7d4f;--warnbg:#fff1e6;--warnink:#7a2e0b;--tint:#eef5fb;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,"Segoe UI",Roboto,Arial,sans-serif}
+header{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding:12px clamp(14px,2.5vw,28px);background:var(--navy);color:#fff}
+header .brand{display:flex;align-items:center;gap:10px;flex:1 1 300px;font-size:18px;font-weight:700}
+.pill{font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;background:#24476f;color:#dbe7f6}
+#offpill{display:none;background:#fde2dc;color:#7a1c12}
+.live{display:flex;align-items:center;gap:6px;font-size:13px}
+.dot{width:9px;height:9px;border-radius:50%;background:#4ade80}
+header label{font-size:13px}
+header input{font:inherit;font-size:14px;padding:7px 10px;border-radius:8px;border:0;min-height:38px;width:170px}
+header a{color:#dbe7f6;font-size:13px}
+#alert{display:none;margin:14px clamp(14px,2.5vw,28px) 0;padding:11px 16px;border-radius:12px;background:var(--warnbg);color:var(--warnink);font-size:14px}
+#msg{margin:8px clamp(14px,2.5vw,28px) 0;color:#9f1d14;font-weight:700;min-height:1.2em}
+.wrap{display:flex;flex-wrap:wrap;gap:16px;padding:10px clamp(14px,2.5vw,28px) 28px;align-items:flex-start}
+.col-q{flex:1 1 340px;max-width:440px;min-width:0;display:flex;flex-direction:column;gap:12px}
+.col-m{flex:999 1 520px;min-width:0}
+@media (min-width:1100px){.col-m{position:sticky;top:12px}}   /* map stays in view beside a long queue */
+.col-a{flex:1 1 290px;max-width:360px;min-width:0;display:flex;flex-direction:column;gap:14px}
+.panel{background:var(--panel);border-radius:16px;padding:16px;box-shadow:0 6px 18px rgba(15,42,74,.08)}
+h2{font-size:16px;margin:0 0 10px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tabs button{font:inherit;font-size:13px;font-weight:600;border:1px solid #c9d8ea;border-radius:999px;padding:7px 14px;min-height:38px;background:#fff;color:var(--ink);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
+.card{background:#fff;border-radius:14px;padding:14px 16px;box-shadow:0 6px 18px rgba(15,42,74,.08);border:2px solid transparent}
+.card.u3,.card.u4{border-color:#f3c3a9}.card.dup{border:2px dashed #9fb2c8;opacity:.9}
+.top{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;justify-content:space-between}
+.top b{font-size:15px}
+.tag{font-size:12.5px;color:var(--mute)}
+.quote{margin:8px 0 4px;padding:9px 12px;background:var(--tint);border-radius:10px;font-size:14px}
+.quote small{display:block;color:var(--mute);font-size:12.5px;margin-top:3px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.chip{font-size:12px;padding:3px 8px;border-radius:6px;background:#e6eef8}
+.chip.hi{background:#fde4d8;color:var(--warnink);font-weight:700}.chip.miss{background:#fff4d6;color:#6b4a00}
+.sugg{font-size:13.5px;margin:8px 0}
+.warn{color:#9f1d14;font-weight:700}.ok{color:var(--ok);font-weight:700}.note{color:#6b4a00;font-weight:700}
+.btns{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px}
+button,select,input{font:inherit;color:var(--ink)}
+.btns button,.act{border:1.5px solid var(--blue);background:#fff;color:var(--blue);border-radius:8px;padding:8px 14px;min-height:42px;font-weight:600;cursor:pointer}
+.btns button.primary,.act.primary{background:var(--blue);color:#fff}
+button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #f59e0b;outline-offset:2px}
+input[type=number]{width:72px;padding:6px 8px;border:1.5px solid var(--line);border-radius:8px;min-height:42px}
+select{padding:6px 8px;border:1.5px solid var(--line);border-radius:8px;background:#fff;min-height:42px}
+.layers{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;border:0;margin:0;padding:0}
+.layers label{display:flex;align-items:center;gap:6px;min-height:32px}
+.mapbox{position:relative;margin-top:10px;border-radius:12px;overflow:hidden;background:#f3f6f2}
+.mapbox svg{display:block;width:100%;height:auto}
+.mapbox svg text{font-family:system-ui,"Segoe UI",Roboto,Arial,sans-serif}
+.attr{position:absolute;right:8px;bottom:6px;font-size:11px;color:#34495e;background:rgba(255,255,255,.88);padding:2px 6px;border-radius:4px;max-width:70%}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px;font-size:12px;color:#34495e}
+.legend span{display:flex;align-items:center;gap:6px}
+.sw{width:14px;height:14px;border-radius:3px;display:inline-block}
+.stat{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.stat div{border-radius:10px;padding:10px;background:#eef2f6}.stat div.p{background:#e3f4f3}
+.stat strong{display:block;font-size:24px;line-height:1.1;font-weight:800}
+.row{display:flex;justify-content:space-between;gap:8px;font-size:13px}
+.bar{height:10px;border-radius:6px;background:#e6eef8;display:flex;overflow:hidden;margin:4px 0 10px}
+.bar i{display:block;height:100%}.bar .a{background:var(--blue)}.bar .s{background:repeating-linear-gradient(45deg,var(--blue) 0 4px,#a9d3df 4px 8px)}
+.dark{background:#16222e;color:#d6e0ea}.dark h2{color:#fff}
+ol.log{margin:0;padding-left:18px;font-size:13px;line-height:1.5}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.mono, code {font-family:ui-monospace,Consolas,Menlo,monospace}
+body.busy .btns button,body.busy #road{opacity:.55;pointer-events:none;cursor:progress}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7fd3e6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>
+    Relief Coordination <span class="pill">Synthetic data</span> <span class="pill" id="regionpill" style="display:none"></span> <span class="pill" id="offpill">Offline demo: changes are not saved</span>
+  </div>
+  <span class="live" id="live"><span class="dot"></span>Live · updates every 5 s</span>
+  <label for="who">Coordinator</label><input type="text" id="who" autocomplete="name" placeholder="Your name">
+  <a id="classic" href="/dashboard/v1">Classic view</a>
+</header>
+<div id="alert" role="status"></div>
+<p id="msg" role="alert"></p>
+<div class="wrap">
+  <section class="col-q" aria-label="Requests">
+    <div class="top"><h2 style="margin:0">Requests</h2><span class="tag" id="qcount"></span></div>
+    <div class="tabs" role="tablist" aria-label="Filter requests">
+      <button type="button" role="tab" id="t-all" aria-selected="true">All</button>
+      <button type="button" role="tab" id="t-low" aria-selected="false">Low confidence</button>
+      <button type="button" role="tab" id="t-held" aria-selected="false">Not on map</button>
+    </div>
+    <div id="queue" style="display:flex;flex-direction:column;gap:12px"></div>
+  </section>
+
+  <section class="col-m panel" aria-label="Map">
+    <div class="top" style="gap:8px 16px">
+      <h2 style="margin:0">Map</h2>
+      <fieldset class="layers" id="layers"><legend class="sr">Map layers</legend>
+        <label id="basemapToggle" style="display:none"><input type="checkbox" data-layer="basemap" checked>Street map</label>
+        <label><input type="checkbox" data-layer="road" checked>Roads</label>
+        <label><input type="checkbox" data-layer="closed" checked>Closures</label>
+        <label><input type="checkbox" data-layer="no_signal" checked>No mobile signal</label>
+        <label><input type="checkbox" data-layer="vuln" checked>Social vulnerability</label>
+      </fieldset>
+    </div>
+    <div class="mapbox"><svg id="map" viewBox="0 0 760 540" role="img" aria-label="Map of the area with roads, closures and open requests"></svg><div class="attr" id="attr"></div></div>
+    <div class="legend" id="legend">
+      <span><i class="sw" style="border-radius:50%;background:var(--hi)"></i>Urgent or critical</span>
+      <span><i class="sw" style="border-radius:50%;background:var(--lo)"></i>Other request</span>
+      <span><i class="sw" style="border-radius:50%;background:var(--ok)"></i>Approved</span>
+      <span><i style="width:22px;border-top:4px dashed var(--hi)"></i>Closed road</span>
+      <span><i class="sw" style="background:repeating-linear-gradient(45deg,#c9bfe0 0 3px,#f6f0ff 3px 7px)"></i>No mobile signal</span>
+      <span>Vulnerability: <i class="sw" style="background:#fcefc7"></i>low <i class="sw" style="background:#fde2cf"></i>medium <i class="sw" style="background:#f6b48f"></i>high</span>
+    </div>
+    <p class="tag" id="roadnote"></p>
+  </section>
+
+  <aside class="col-a" aria-label="Plan, roads and supplies">
+    <div class="panel"><h2>Priority plan vs first-come</h2><div id="metrics"></div></div>
+    <div class="panel"><h2>Roads</h2><label for="road" class="tag">Close a road </label><select id="road"></select></div>
+    <div class="panel"><h2>Supplies</h2><div id="stock"></div><p class="tag" style="margin:0">Solid: approved. Striped: suggested, waiting on you.</p></div>
+    <div class="panel dark"><h2>Audit log</h2><ol class="log" id="log" aria-live="polite"><li>Dashboard opened.</li></ol></div>
+  </aside>
+</div>
+<script>
+const DEMO_STOCK={water:20,food:12,medicine:2,blankets:8,shelter:10};
+const UNIT={water:"water cases",food:"food kits",medicine:"medicine kits",blankets:"blankets",shelter:"shelter beds"};
+let HOODS={riverside:"Riverside",oak:"Oak Hollow",mill:"Millbrook"};
+let NODES={depot:[50,130,"Depot"],j:[180,40,"Junction"],riverside:[310,60,"Riverside"],oak:[190,220,"Oak Hollow"],mill:[310,200,"Millbrook"]};
+const DEMO_EDGES=[["Bridge St","depot","riverside",8],["Hill Rd","depot","j",12],["Ridge Ln","j","riverside",14],["Main St","depot","oak",10],["Cedar Ave","j","oak",7],["Mill Rd","oak","mill",9]];
+const DEMO_R=[
+{id:"R-1",hood:"riverside",lang:"English",text:"Water is up to our porch. My mother is elderly and we have had no clean water since last night. 4 people.",en:"",need:"water",qty:8,u:3,win:30,conf:94,miss:"",access:"Needs ground-floor drop-off (mobility)",phone:"•••-0117"},
+{id:"R-2",hood:"oak",lang:"Spanish",text:"Necesitamos medicinas para la insulina de mi esposo, no tenemos refrigerador.",en:"We need medicine for my husband’s insulin and we have no refrigerator.",need:"medicine",qty:2,u:3,win:25,conf:81,miss:"Exact street address",phone:"•••-0132"},
+{id:"R-3",hood:"mill",lang:"Vietnamese",text:"Chúng tôi cần chăn cho 6 người.",en:"We need blankets for 6 people.",need:"blankets",qty:6,u:2,win:60,conf:50,miss:"",phone:"•••-0165"},
+{id:"R-4",hood:"riverside",lang:"Mandarin",text:"我们三口人需要避难所，家里已经进水。",en:"Three of us need shelter. Our home is flooded.",need:"shelter",qty:3,u:3,win:40,conf:90,miss:"",phone:"•••-0110"},
+{id:"R-5",hood:"riverside",lang:"English",text:"Family of 5 needs food, the kids haven’t eaten since morning. Same building as the family in unit 2.",en:"",need:"food",qty:5,u:2,win:60,conf:86,miss:"",same:"Same building as R-4, but a separate household, so it stays its own request.",phone:"•••-0181"},
+{id:"R-6",hood:"oak",lang:"Spanish",text:"Mi esposo necesita insulina, por favor, rápido.",en:"My husband needs insulin, please hurry.",need:"medicine",qty:2,u:3,win:25,conf:72,miss:"",dupOf:"R-2",phone:"•••-0132"},
+{id:"R-7",hood:"mill",lang:"English",text:"Food for 10 people at the church. Children and older adults, basement flooded.",en:"",need:"food",qty:10,u:3,win:45,conf:90,miss:"",phone:"•••-0108"},
+{id:"R-8",hood:"oak",lang:"English",text:"Need blankets, 4 of us. Power is out and it is cold.",en:"",need:"blankets",qty:4,u:1,win:90,conf:92,miss:"",phone:"•••-0149"}
+];
+DEMO_R.forEach(r=>{r.status="pending";r.alloc=0});
+let STOCK={},EDGES=[],R=[],blocked="",offline=false,held=0,heldList=[],lastState="",MAP=null,tab="all";
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const API=window.RELIEF_API||"";
+const store=(k,v)=>{try{if(v===undefined)return sessionStorage.getItem(k)||localStorage.getItem(k)||"";localStorage.setItem(k,v)}catch(e){return ""}};
+const KEY=new URLSearchParams(location.search).get("key")||store("relief_key");
+if(KEY)try{sessionStorage.setItem("relief_key",KEY)}catch(e){}
+let coordinator=store("relief_coordinator");
+const LAYERS_ON=(()=>{try{return JSON.parse(store("relief_layers")||"{}")}catch(e){return {}}})();
+const layerOn=k=>LAYERS_ON[k]!==false;
+const $=s=>document.querySelector(s);
+const log=m=>{const li=document.createElement("li");li.textContent=m;$("#log").prepend(li);while($("#log").children.length>7)$("#log").lastChild.remove()};
+
+// ---------------- planning (identical to dashboard.html v1)
+function eta(to){
+  const d={};Object.keys(NODES).forEach(k=>d[k]=Infinity);d.depot=0;const done={};
+  for(let i=0;i<Object.keys(NODES).length;i++){
+    let u=null;Object.keys(d).forEach(k=>{if(!done[k]&&(u===null||d[k]<d[u]))u=k});
+    if(u===null||d[u]===Infinity)break;done[u]=1;
+    EDGES.forEach(([n,a,b,m])=>{if(n===blocked)return;if(a===u&&d[u]+m<d[b])d[b]=d[u]+m;if(b===u&&d[u]+m<d[a])d[a]=d[u]+m})
+  }
+  return d[to];
+}
+function plan(order,seed){
+  const left={...STOCK};const out={};
+  R.forEach(r=>{if(r.status==="approved"&&seed){left[r.need]-=r.alloc;out[r.id]={alloc:r.alloc,locked:1}}});
+  order.forEach(r=>{
+    if(r.dupOf||(seed&&r.status!=="pending"))return;
+    const a=Math.max(0,Math.min(r.qty,left[r.need]));left[r.need]-=a;out[r.id]={alloc:a};
+  });
+  return{out,left};
+}
+const rank=r=>r.crit?4:r.u;
+const num=r=>parseInt(String(r.id).replace(/\D/g,""))||0;
+function prioritized(list){
+  const T={};list.forEach(r=>T[r.id]=eta(r.hood));
+  const ok=list.filter(r=>!r.dupOf&&T[r.id]!==Infinity);
+  const by=(a,b)=>rank(b)-rank(a)||(a.win-T[a.id])-(b.win-T[b.id])||num(a)-num(b);
+  return [...ok.filter(r=>T[r.id]<=r.win).sort(by),...ok.filter(r=>T[r.id]>r.win).sort(by)];
+}
+const fcfsOrder=list=>list.filter(r=>!r.dupOf&&eta(r.hood)!==Infinity).sort((a,b)=>num(a)-num(b));
+const allocOf=(o,r)=>(o[r.id]||{alloc:0}).alloc;
+const byUrgency=()=>prioritized(R.filter(r=>r.status==="pending"));
+const LOW=60;
+
+// ---------------- rendering
+function card(r,left){
+  const label=["","Can wait","Soon","Urgent"],lab=r.crit?"Critical":label[r.u];
+  const t=eta(r.hood),reach=t!==Infinity,late=reach&&t>r.win;
+  const a=r.status==="approved"?r.alloc:r.sug;
+  let s="";
+  if(r.dupOf)s=`<div class="sugg"><span class="note">Likely duplicate of ${esc(r.dupOf)}.</span> Same household and need. Linked, not deleted; counted once.</div>`;
+  else if(r.status==="rejected")s=`<div class="sugg"><b>Rejected</b> by a coordinator.</div>`;
+  else{
+    const short=r.qty-a;
+    s=`<div class="sugg"><b>${r.status==="approved"?"Approved":"Suggested"}:</b> send ${a} of ${r.qty} ${UNIT[r.need]} from the depot. `+
+    (reach?`About ${t} min (needs ${r.win}). `+(late?`<span class="warn">Too late for this window.</span> `:`<span class="ok">Within window.</span> `):`<span class="warn">No open route to ${HOODS[r.hood]}.</span> `)+
+    (!r.qty?`<span class="warn">Quantity needed: enter it before approving.</span>`:short>0?`<span class="warn">Short by ${short}.</span>`:"")+
+    (!reach?`<div class="tag">Held back: stock goes to requests that can be reached.</div>`:late?`<div class="tag">Served after requests that can still arrive in time.</div>`:"")+
+    `<div class="tag">${left[r.need]} ${UNIT[r.need]} left after this plan.</div></div>`;
+  }
+  const btn=r.dupOf?"":r.status==="pending"?`<button class="primary" onclick="act('${r.id}','approved')">Approve</button><label class="tag">Quantity <input type="number" min="0" value="${r.qty}" onchange="setq('${r.id}',this.value)" aria-label="Correct quantity for ${r.id}"></label><button onclick="act('${r.id}','rejected')">Reject</button>`:`<button onclick="act('${r.id}','pending')">Reopen</button>`;
+  return `<article class="card u${rank(r)}${r.dupOf?" dup":""}" id="card-${r.id}"><div class="top"><b><span class="mono">${r.id}</span> · ${HOODS[r.hood]}</b><span class="tag">${esc(r.lang)} · phone ${esc(r.phone)}</span></div>
+  <div class="quote">${esc(r.text)}${r.en?`<small>Translated: ${esc(r.en)}</small>`:""}</div>
+  <div class="chips"><span class="chip${rank(r)>=3?" hi":""}">${lab}</span><span class="chip">${r.qty} ${UNIT[r.need]}</span><span class="chip">AI confidence ${r.conf}%</span>${r.miss?`<span class="chip miss">Missing: ${esc(r.miss)}</span>`:""}${r.access?`<span class="chip miss">${esc(r.access)}</span>`:""}</div>
+  ${r.same?`<div class="tag">${esc(r.same)}</div>`:""}${s}<div class="btns">${btn}</div></article>`;
+}
+function heldCard(x){
+  const canPlace=!offline&&/^Area unclear/.test(x.reason);
+  const canNeed=!offline&&/^Need /.test(x.reason);          // AI filed it under a need the planner can't use
+  const opts=Object.entries(HOODS).map(([k,v])=>`<option value="${k}">${v}</option>`).join("");
+  const needs=Object.entries(UNIT).map(([k,v])=>`<option value="${k}">${k[0].toUpperCase()+k.slice(1)} (${v})</option>`).join("");
+  return `<article class="card"><div class="top"><b>${esc(x.id)}</b><span class="tag">Not on the map yet</span></div>
+  <div class="sugg">${esc(x.reason)}</div><div class="quote">${esc(x.text)}</div>`+
+  (canPlace?`<div class="btns"><label class="tag" for="z-${x.dbid}">Set area</label><select id="z-${x.dbid}"><option value="">Choose…</option>${opts}</select><button class="primary" onclick="setZone(${x.dbid})">Place on map</button></div>`:"")+
+  (canNeed?`<div class="btns"><label class="tag" for="n-${x.dbid}">Set need</label><select id="n-${x.dbid}"><option value="">Choose…</option>${needs}</select><button class="primary" onclick="setNeed(${x.dbid})">Save need</button></div>`:"")+`</article>`;
+}
+function render(){
+  const {out,left}=plan(byUrgency(),true);
+  R.forEach(r=>{if(r.status==="pending")r.sug=allocOf(out,r)});
+  const list=[...R].sort((a,b)=>rank(b)-rank(a)||num(a)-num(b));
+  const low=list.filter(r=>!r.dupOf&&r.conf<LOW);
+  $("#t-all").textContent=`All ${list.length}`;$("#t-low").textContent=`Low confidence ${low.length}`;$("#t-held").textContent=`Not on map ${held}`;
+  ["all","low","held"].forEach(k=>$("#t-"+k).setAttribute("aria-selected",String(tab===k)));
+  $("#qcount").textContent=`${list.filter(r=>r.status==="pending"&&!r.dupOf).length} waiting on you`;
+  $("#queue").innerHTML=tab==="held"?(heldList.length?heldList.map(heldCard).join(""):`<p class="tag">Every report is on the map.</p>`)
+    :(tab==="low"?low:list).map(r=>card(r,left)).join("")||`<p class="tag">Nothing here.</p>`;
+  $("#stock").innerHTML=Object.keys(STOCK).map(k=>{
+    const ap=R.filter(r=>r.status==="approved"&&r.need===k).reduce((x,r)=>x+r.alloc,0);
+    const sg=R.filter(r=>r.status==="pending"&&r.need===k&&!r.dupOf).reduce((x,r)=>x+(r.sug||0),0);
+    const T=STOCK[k]||1;
+    return `<div class="row"><span>${UNIT[k]}</span><b>${STOCK[k]-ap} left of ${STOCK[k]}</b></div><div class="bar"><i class="a" style="width:${ap/T*100}%"></i><i class="s" style="width:${sg/T*100}%"></i></div>`}).join("");
+  const real=R.filter(r=>!r.dupOf),urgent=real.filter(r=>rank(r)>=3);
+  const opt=plan(prioritized(real),false).out,fc=plan(fcfsOrder(real),false).out;
+  const met=o=>urgent.filter(r=>r.qty>0&&allocOf(o,r)>=r.qty&&eta(r.hood)<=r.win).length;
+  const unmet=o=>real.reduce((x,r)=>x+Math.max(0,r.qty-allocOf(o,r)),0);
+  const noQty=real.filter(r=>!r.qty).length,cut=real.filter(r=>eta(r.hood)===Infinity).length;
+  $("#metrics").innerHTML=`<div class="stat"><div class="p"><span class="tag">Priority plan</span><strong>${met(opt)} of ${urgent.length}</strong><span class="tag">urgent needs met in time</span></div><div><span class="tag">First-come</span><strong>${met(fc)} of ${urgent.length}</strong><span class="tag">urgent needs met in time</span></div></div><p class="tag" style="margin:8px 0 0">Units unmet: ${unmet(opt)} vs ${unmet(fc)}. Same stock and open roads.${cut?` ${cut} with no open route.`:""}${noQty?` ${noQty} need a quantity.`:""}</p>`;
+  $("#offpill").style.display=offline?"inline-block":"none";
+  $("#live").innerHTML=offline?`<span class="dot" style="background:#f87171"></span>Not connected`:`<span class="dot"></span>Live · updates every 5 s`;
+  drawMap();renderAlert();
+}
+
+// ---------------- map: GeoJSON layers from /dashboard/map (falls back to the simple v1 diagram)
+const VUL={low:"#fcefc7",medium:"#fde2cf",high:"#f6b48f"};
+function rings(g){return g.type==="Polygon"?g.coordinates:g.type==="MultiPolygon"?g.coordinates.flat():[]}
+const MW=760,MH=540;
+function mercator([lon,lat]){const t=Math.sin(lat*Math.PI/180);return [(lon+180)/360,.5-Math.log((1+t)/(1-t))/(4*Math.PI)]}
+function projector(feats,merc){   // merc: Web Mercator, so overlays line up with street-map tiles
+  const pts=[];const each=g=>{(g.type==="Point"?[g.coordinates]:g.type==="LineString"?g.coordinates:rings(g).flat()).forEach(p=>pts.push(p))};
+  feats.forEach(f=>each(f.geometry));
+  const lat=pts.reduce((a,p)=>a+p[1],0)/(pts.length||1),k=Math.cos(lat*Math.PI/180);   // keep real-world shapes for lon/lat data
+  const T=merc?mercator:([x,y])=>[x*k,-y];
+  let X0=Infinity,Y0=Infinity,X1=-Infinity,Y1=-Infinity;
+  pts.forEach(p=>{const[X,Y]=T(p);X0=Math.min(X0,X);X1=Math.max(X1,X);Y0=Math.min(Y0,Y);Y1=Math.max(Y1,Y)});
+  const pad=24,s=Math.min((MW-2*pad)/((X1-X0)||1),(MH-2*pad)/((Y1-Y0)||1));
+  const ox=(MW-(X1-X0)*s)/2,oy=(MH-(Y1-Y0)*s)/2;
+  const pj=p=>{const[X,Y]=T(p);return [ox+(X-X0)*s,oy+(Y-Y0)*s]};
+  pj.s=s;pj.ox=ox;pj.oy=oy;pj.X0=X0;pj.Y0=Y0;
+  return pj;
+}
+function tiles(pj,url){   // street-map tiles covering the whole map box; offline they simply don't load
+  const z=Math.max(1,Math.min(19,Math.round(Math.log2(pj.s/256)))),n=2**z,size=pj.s/n;
+  const w=v=>Math.floor(v*n),wx=x=>pj.X0+(x-pj.ox)/pj.s,wy=y=>pj.Y0+(y-pj.oy)/pj.s;
+  let out="";
+  for(let tx=w(wx(0));tx<=w(wx(MW));tx++)for(let ty=Math.max(0,w(wy(0)));ty<=Math.min(n-1,w(wy(MH)));ty++){
+    const x=pj.ox+(tx/n-pj.X0)*pj.s,y=pj.oy+(ty/n-pj.Y0)*pj.s;
+    const href=url.replace("{z}",z).replace("{x}",((tx%n)+n)%n).replace("{y}",ty);
+    out+=`<image href="${esc(href)}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${(size+.6).toFixed(1)}" height="${(size+.6).toFixed(1)}" preserveAspectRatio="none"/>`}
+  return out;
+}
+function centroid(pts){let x=0,y=0;pts.forEach(p=>{x+=p[0];y+=p[1]});return [x/pts.length,y/pts.length]}
+function inside([x,y],poly){let c=false;for(let i=0,j=poly.length-1;i<poly.length;j=i++){const[xi,yi]=poly[i],[xj,yj]=poly[j];if((yi>y)!==(yj>y)&&x<(xj-xi)*(y-yi)/(yj-yi)+xi)c=!c}return c}
+function drawMap(){
+  const svg=$("#map");
+  if(!MAP||!MAP.features.length){svg.setAttribute("viewBox","0 0 360 260");drawSimple();$("#attr").textContent="";return}
+  svg.setAttribute("viewBox","0 0 760 540");
+  const base=MAP.basemap&&MAP.basemap.url,street=base&&layerOn("basemap");
+  const F=MAP.features,pj=projector(F,!!base),by=l=>F.filter(f=>f.properties.layer===l);
+  const path=ring=>"M"+ring.map(p=>pj(p).map(v=>v.toFixed(1)).join(" ")).join("L")+"Z";
+  let s=`<defs><pattern id="nosig" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="12" stroke="#5b4b8a" stroke-width="3" opacity=".45"/></pattern></defs>`;
+  if(street)s+=`<rect width="${MW}" height="${MH}" fill="#e9edf0"/>`+tiles(pj,MAP.basemap.url)+`<rect width="${MW}" height="${MH}" fill="#fff" opacity=".18"/>`;
+  const zoneCenters={};
+  by("zone").forEach(f=>{const p=f.properties,rs=rings(f.geometry);
+    const fill=layerOn("vuln")?(VUL[p.vulnerability]||"#eef3f7"):"#eef3f7";
+    s+=street?`<path d="${rs.map(path).join(" ")}" fill="${fill}" fill-opacity="${layerOn("vuln")&&p.vulnerability?.42:.18}" stroke="#0f2a4a" stroke-opacity=".55" stroke-width="1.5" stroke-dasharray="${p.boundary==="approximate"?"6 4":""}"/>`
+      :`<path d="${rs.map(path).join(" ")}" fill="${fill}" stroke="#c9d6e3"/>`;
+    zoneCenters[p.zone]=pj(centroid(rs[0]))});
+  if(!street)by("water").forEach(f=>{s+=`<path d="${rings(f.geometry).map(path).join(" ")}" fill="#cfe3f5"/>`});
+  if(layerOn("no_signal"))by("no_signal").forEach(f=>{s+=`<path d="${rings(f.geometry).map(path).join(" ")}" fill="url(#nosig)" stroke="#5b4b8a" stroke-dasharray="4 4" stroke-opacity=".6"/>`});
+  let labels="";                                   // road names go on top of every road line
+  if(layerOn("road"))by("road").forEach(f=>{
+    const pts=f.geometry.coordinates.map(pj),d="M"+pts.map(p=>p.map(v=>v.toFixed(1)).join(" ")).join("L");
+    const closed=layerOn("closed")&&f.properties.name&&f.properties.name===blocked;
+    s+=`<path d="${d}" stroke="#fff" stroke-width="9" fill="none" stroke-linecap="round"/><path d="${d}" stroke="${closed?"var(--hi)":"#9aa9b8"}" stroke-width="${closed?5:2.5}" ${closed?'stroke-dasharray="10 7"':""} fill="none" stroke-linecap="round"/>`;
+    if(f.properties.name&&pts.length>1){const m=pts[Math.floor((pts.length-1)/2)],n=pts[Math.floor((pts.length-1)/2)+1]||m;
+      labels+=`<text x="${((m[0]+n[0])/2).toFixed(1)}" y="${((m[1]+n[1])/2-7).toFixed(1)}" font-size="12" font-weight="600" fill="#0f2a4a" text-anchor="middle" paint-order="stroke" stroke="#f3f6f2" stroke-width="4">${esc(f.properties.name)}${closed?" · CLOSED":""}</text>`}});
+  s+=labels;
+  by("zone").forEach(f=>{const c=zoneCenters[f.properties.zone];if(!c)return;   // name along the top edge, clear of pins
+    const top=Math.min(...rings(f.geometry)[0].map(p=>pj(p)[1]));
+    s+=`<text x="${c[0].toFixed(1)}" y="${(top+22).toFixed(1)}" font-size="14" font-weight="800" fill="#0f2a4a" text-anchor="middle" paint-order="stroke" stroke="#fff" stroke-width="3">${esc((f.properties.name||"").toUpperCase())}</text>`});
+  by("depot").forEach(f=>{const[x,y]=pj(f.geometry.coordinates);s+=`<rect x="${x-13}" y="${y-13}" width="26" height="26" rx="6" fill="#0f2a4a"/><path d="M${x-8} ${y+8}v-9l8-5 8 5v9z" fill="#fff"/><text x="${x+18}" y="${y+5}" font-size="12" font-weight="700" fill="#0f2a4a">Depot</text>`});
+  Object.entries(zoneCenters).forEach(([z,[cx,cy]])=>{
+    const rs=R.filter(r=>r.hood===z&&!r.dupOf&&r.status!=="rejected");
+    rs.forEach((r,i)=>{const a=i*2.399,rad=i?14+6*Math.sqrt(i):0,x=cx+rad*Math.cos(a)*1.6,y=cy+rad*Math.sin(a);
+      const col=r.status==="approved"?"var(--ok)":rank(r)>=3?"var(--hi)":"var(--lo)";
+      s+=`<a href="#card-${r.id}" aria-label="${r.id}, ${HOODS[r.hood]}"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="13" fill="${col}" stroke="#fff" stroke-width="3"/><text x="${x.toFixed(1)}" y="${(y+4).toFixed(1)}" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">${num(r)}</text></a>`})});
+  svg.innerHTML=s;
+  $("#attr").textContent=[street?MAP.basemap.attribution:"",MAP.attribution].filter(Boolean).join(" · ");
+  $("#roadnote").textContent=blocked?`${blocked} is closed. Open requests were re-planned on the remaining roads.`:"All roads open. Click a pin to jump to its request.";
+}
+function drawSimple(){   // v1 diagram, used when no map layers are available
+  const pend=h=>R.filter(r=>r.hood===h&&r.status==="pending"&&!r.dupOf).length;let s="";
+  EDGES.forEach(([n,a,b,m])=>{const A=NODES[a],B=NODES[b],x=(A[0]+B[0])/2,y=(A[1]+B[1])/2,x_=n===blocked;
+    s+=`<line x1="${A[0]}" y1="${A[1]}" x2="${B[0]}" y2="${B[1]}" stroke="${x_?"var(--hi)":"#7a8ba0"}" stroke-width="${x_?3:2}" ${x_?'stroke-dasharray="6 4"':""}/><text x="${x}" y="${y-4}" font-size="9" text-anchor="middle">${n}${x_?" (closed)":""} ${m}m</text>`});
+  Object.entries(NODES).forEach(([k,[x,y,n]])=>{const hood=HOODS[k],p=hood?pend(k):0;
+    s+=`<circle cx="${x}" cy="${y}" r="${hood?13:9}" fill="${k==="depot"?"var(--ok)":hood?"var(--lo)":"#fff"}" stroke="#0f2a4a" stroke-width="1.5"/><text x="${x}" y="${y+(y>150?28:-18)}" font-size="11" font-weight="700" text-anchor="middle">${n}</text>`+(hood?`<text x="${x}" y="${y+4}" font-size="11" font-weight="700" text-anchor="middle" fill="#fff">${p}</text>`:"")});
+  $("#map").innerHTML=s;$("#roadnote").textContent=blocked?`${blocked} is closed. Open requests were re-planned.`:"All roads open.";
+}
+function renderAlert(){
+  const parts=[];
+  if(MAP&&layerOn("no_signal")){
+    const zones=MAP.features.filter(f=>f.properties.layer==="zone"),dead=MAP.features.filter(f=>f.properties.layer==="no_signal");
+    zones.forEach(z=>{const c=centroid(rings(z.geometry)[0]);
+      if(dead.some(d=>rings(d.geometry).some(ring=>inside(c,ring)))){
+        const n=R.filter(r=>r.hood===z.properties.zone&&r.status==="pending"&&!r.dupOf).length;
+        parts.push(`<b>${esc(z.properties.name)} has no mobile signal.</b> ${n} open request${n===1?"":"s"} there; new reports may arrive late or by SMS relay.`)}})}
+  if(blocked)parts.push(`<b>${esc(blocked)} is closed.</b>`);
+  const el=$("#alert");el.innerHTML=parts.join(" ");el.style.display=parts.length?"block":"none";
+}
+
+// ---------------- backend
+const say=m=>{$("#msg").textContent=m||""};
+async function api(path,opts={}){
+  const res=await fetch(API+path,{...opts,headers:{"Content-Type":"application/json",...(KEY?{"X-API-Key":KEY}:{}),...(coordinator?{"X-Coordinator":coordinator}:{}),...(opts.headers||{})}});
+  if(!res.ok){let m=res.statusText;try{m=(await res.json()).detail||m}catch(e){}throw new Error(typeof m==="string"?m:"Request failed")}
+  return res.json();
+}
+function setRoads(){$("#road").innerHTML='<option value="">No closures</option>'+EDGES.map(e=>`<option>${esc(e[0])}</option>`).join("");$("#road").value=blocked}
+function applyState(s){
+  lastState=JSON.stringify(s);
+  if(s.region){HOODS=s.region.zones;NODES=s.region.nodes;
+    const rp=$("#regionpill");rp.textContent=s.region.name;rp.style.display=s.region.id==="demo"?"none":"inline-block"}
+  STOCK=s.stock;EDGES=s.roads;blocked=s.blocked||"";held=s.held_back||0;heldList=s.held||[];R=s.reports.map(r=>({...r}));
+  const ol=$("#log");ol.innerHTML="";(s.audit||[]).forEach(m=>{const li=document.createElement("li");li.textContent=m;ol.appendChild(li)});
+  setRoads();
+}
+function applyDemo(){offline=true;STOCK={...DEMO_STOCK};EDGES=DEMO_EDGES;R=DEMO_R;blocked="";held=0;heldList=[];setRoads()}
+async function loadState(){
+  try{applyState(await api("/dashboard/state"));offline=false;say("")}
+  catch(e){if(!R.length){applyDemo();say("Could not reach the backend. Showing built-in demo data. Nothing you do here is saved.")}else say(e.message)}
+}
+async function loadMap(){try{const m=await api("/dashboard/map");MAP=m&&m.features&&m.features.length?m:null}catch(e){MAP=null}
+  $("#basemapToggle").style.display=MAP&&MAP.basemap?"":"none"}
+const needName=()=>{if(coordinator)return true;say("Enter your name at the top first. Every decision is recorded with it.");$("#who").focus();return false};
+const evidenceFor=r=>({eta_min:eta(r.hood),window_min:r.win,confidence:r.conf,left_after:plan(byUrgency(),true).left[r.need]});
+let busy=false;   // one decision at a time: extra clicks while saving are ignored
+async function send(path,body){
+  if(busy)return;busy=true;document.body.classList.add("busy");
+  try{applyState(await api(path,{method:"POST",body:JSON.stringify(body)}));say("")}catch(e){say(e.message);await loadState()}
+  finally{busy=false;document.body.classList.remove("busy")}
+  render()}
+function act(id,st){
+  const r=R.find(x=>x.id===id);if(offline)return localAct(id,st);if(!needName())return;
+  const body={status:st};
+  if(st==="approved"){body.quantity=r.sug||0;body.evidence=evidenceFor(r)}
+  if(st==="rejected"){const why=window.prompt(`Why are you rejecting ${id}? A reason is required and is recorded in the audit log.`);if(!why||!why.trim())return;body.reason=why;body.quantity=r.sug||0}
+  return send(`/dashboard/reports/${r.dbid}/act`,body);
+}
+function setq(id,v){const r=R.find(x=>x.id===id);if(offline)return localSetq(id,v);if(!needName()){render();return}
+  return send(`/dashboard/reports/${r.dbid}/quantity`,{quantity:Math.max(0,parseInt(v)||0)})}
+function setZone(dbid){const z=$("#z-"+dbid).value;if(!z){say("Choose an area first.");return}if(!needName())return;
+  send(`/dashboard/reports/${dbid}/zone`,{zone:z}).then(()=>{if(!heldList.length)tab="all";render()})}
+function setNeed(dbid){const n=$("#n-"+dbid).value;if(!n){say("Choose a need first.");return}if(!needName())return;
+  send(`/dashboard/reports/${dbid}/need`,{need:n}).then(()=>{if(!heldList.length)tab="all";render()})}
+function localAct(id,st){const r=R.find(x=>x.id===id);if(st==="approved")r.alloc=r.sug||0;if(st==="pending")r.alloc=0;r.status=st;log(`${id} ${st==="approved"?"approved":st==="rejected"?"rejected":"reopened"} by coordinator.`);render()}
+function localSetq(id,v){const r=R.find(x=>x.id===id);const o=r.qty;r.qty=Math.max(0,parseInt(v)||0);log(`${id} quantity corrected from ${o} to ${r.qty}. Plan recomputed.`);render()}
+$("#road").onchange=e=>{
+  if(offline){blocked=e.target.value;log(blocked?`${blocked} closed. Plan recomputed.`:"All roads reopened. Plan recomputed.");render();return}
+  if(!needName()){e.target.value=blocked;return}
+  send("/dashboard/road",{name:e.target.value});
+};
+["all","low","held"].forEach(k=>$("#t-"+k).onclick=()=>{tab=k;render()});
+document.querySelectorAll("#layers input").forEach(i=>{i.checked=layerOn(i.dataset.layer);i.onchange=()=>{LAYERS_ON[i.dataset.layer]=i.checked;store("relief_layers",JSON.stringify(LAYERS_ON));render()}});
+$("#who").value=coordinator;
+$("#who").oninput=e=>{coordinator=e.target.value.trim();store("relief_coordinator",coordinator)};
+if(KEY)$("#classic").href="/dashboard/v1?key="+encodeURIComponent(KEY);
+async function poll(){
+  if(offline||document.hidden)return;
+  const a=document.activeElement;if(a&&(a.tagName==="INPUT"||a.tagName==="SELECT"||a.tagName==="TEXTAREA"))return;
+  try{const s=await api("/dashboard/state");if(JSON.stringify(s)!==lastState){applyState(s);render()}}catch(e){}
+}
+setInterval(poll,5000);
+Promise.all([loadState(),loadMap()]).then(render);
+</script>
+</body>
+</html>

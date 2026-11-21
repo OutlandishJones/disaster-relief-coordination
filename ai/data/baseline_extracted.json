@@ -1,0 +1,93 @@
+[
+  {
+    "report_id": "R01",
+    "need_type": "water",
+    "quantity": 20,
+    "neighborhood": "rampur",
+    "urgency": "high"
+  },
+  {
+    "report_id": "R02",
+    "need_type": "water",
+    "quantity": 10,
+    "neighborhood": "rampur",
+    "urgency": "medium"
+  },
+  {
+    "report_id": "R03",
+    "need_type": "water",
+    "quantity": 3,
+    "neighborhood": "rampur",
+    "urgency": "high"
+  },
+  {
+    "report_id": "R04",
+    "need_type": "water",
+    "quantity": 6,
+    "neighborhood": "green park",
+    "urgency": "medium"
+  },
+  {
+    "report_id": "R05",
+    "need_type": "medicine",
+    "quantity": null,
+    "neighborhood": "green park",
+    "urgency": "high"
+  },
+  {
+    "report_id": "R06",
+    "need_type": "medicine",
+    "quantity": null,
+    "neighborhood": "barrio sur",
+    "urgency": "high"
+  },
+  {
+    "report_id": "R07",
+    "need_type": "food",
+    "quantity": 5,
+    "neighborhood": "barrio sur",
+    "urgency": "medium"
+  },
+  {
+    "report_id": "R08",
+    "need_type": "food",
+    "quantity": 2,
+    "neighborhood": "green park",
+    "urgency": "medium"
+  },
+  {
+    "report_id": "R09",
+    "need_type": "shelter",
+    "quantity": 6,
+    "neighborhood": "rampur",
+    "urgency": "high"
+  },
+  {
+    "report_id": "R10",
+    "need_type": "shelter",
+    "quantity": null,
+    "neighborhood": "barrio sur",
+    "urgency": "medium"
+  },
+  {
+    "report_id": "R11",
+    "need_type": "blanket",
+    "quantity": 3,
+    "neighborhood": "rampur",
+    "urgency": "medium"
+  },
+  {
+    "report_id": "R12",
+    "need_type": "water",
+    "quantity": 12,
+    "neighborhood": "green park",
+    "urgency": "medium"
+  },
+  {
+    "report_id": "R13",
+    "need_type": "water",
+    "quantity": null,
+    "neighborhood": null,
+    "urgency": "medium"
+  }
+]

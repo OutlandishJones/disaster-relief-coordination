@@ -1,0 +1,409 @@
+{
+ "type": "FeatureCollection",
+ "name": "Petersburg / Ettrick, VA",
+ "attribution": "Area outlines approximate \u00b7 Routes drawn straight, times estimated",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "layer": "zone",
+    "zone": "ettrick",
+    "name": "Ettrick (VSU)",
+    "boundary": "approximate"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.442,
+       37.2345
+      ],
+      [
+       -77.418,
+       37.2335
+      ],
+      [
+       -77.414,
+       37.24
+      ],
+      [
+       -77.418,
+       37.252
+      ],
+      [
+       -77.44,
+       37.252
+      ],
+      [
+       -77.445,
+       37.242
+      ],
+      [
+       -77.442,
+       37.2345
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "layer": "zone",
+    "zone": "battersea",
+    "name": "Battersea / West End",
+    "boundary": "approximate",
+    "vulnerability": "high",
+    "vulnerability_source": "City of Petersburg overall: 'Very High' on ADAPT Virginia's Social Vulnerability Index, per the city's Community Flood Preparedness Fund application. City-wide value, not measured per neighborhood."
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.434,
+       37.23
+      ],
+      [
+       -77.4175,
+       37.2318
+      ],
+      [
+       -77.415,
+       37.224
+      ],
+      [
+       -77.432,
+       37.2215
+      ],
+      [
+       -77.434,
+       37.23
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "layer": "zone",
+    "zone": "oldtowne",
+    "name": "Old Towne",
+    "boundary": "approximate",
+    "vulnerability": "high",
+    "vulnerability_source": "City of Petersburg overall: 'Very High' on ADAPT Virginia's Social Vulnerability Index, per the city's Community Flood Preparedness Fund application. City-wide value, not measured per neighborhood."
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.415,
+       37.2318
+      ],
+      [
+       -77.406,
+       37.234
+      ],
+      [
+       -77.3975,
+       37.233
+      ],
+      [
+       -77.398,
+       37.225
+      ],
+      [
+       -77.414,
+       37.2245
+      ],
+      [
+       -77.415,
+       37.2318
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "layer": "zone",
+    "zone": "pocahontas",
+    "name": "Pocahontas Island",
+    "boundary": "approximate",
+    "vulnerability": "high",
+    "vulnerability_source": "City of Petersburg overall: 'Very High' on ADAPT Virginia's Social Vulnerability Index, per the city's Community Flood Preparedness Fund application. City-wide value, not measured per neighborhood."
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.4025,
+       37.237
+      ],
+      [
+       -77.396,
+       37.2368
+      ],
+      [
+       -77.395,
+       37.2405
+      ],
+      [
+       -77.402,
+       37.2412
+      ],
+      [
+       -77.4025,
+       37.237
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "layer": "zone",
+    "zone": "lakemont",
+    "name": "Lakemont",
+    "boundary": "approximate",
+    "vulnerability": "high",
+    "vulnerability_source": "City of Petersburg overall: 'Very High' on ADAPT Virginia's Social Vulnerability Index, per the city's Community Flood Preparedness Fund application. City-wide value, not measured per neighborhood."
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -77.387,
+       37.227
+      ],
+      [
+       -77.369,
+       37.2265
+      ],
+      [
+       -77.368,
+       37.215
+      ],
+      [
+       -77.386,
+       37.2145
+      ],
+      [
+       -77.387,
+       37.227
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "layer": "road",
+    "name": "N Sycamore St",
+    "minutes": 5,
+    "drawn": "straight between areas"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -77.404,
+      37.219
+     ],
+     [
+      -77.406,
+      37.229
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "layer": "road",
+    "name": "Pocahontas St bridge",
+    "minutes": 3,
+    "drawn": "straight between areas"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -77.406,
+      37.229
+     ],
+     [
+      -77.4,
+      37.2352
+     ],
+     [
+      -77.399,
+      37.2388
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "layer": "road",
+    "name": "W Washington St",
+    "minutes": 7,
+    "drawn": "straight between areas"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -77.404,
+      37.219
+     ],
+     [
+      -77.4245,
+      37.2268
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "layer": "road",
+    "name": "Upper Appomattox St",
+    "minutes": 4,
+    "drawn": "straight between areas"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -77.406,
+      37.229
+     ],
+     [
+      -77.4245,
+      37.2268
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "layer": "road",
+    "name": "Campbell's Bridge",
+    "minutes": 5,
+    "drawn": "straight between areas"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -77.4245,
+      37.2268
+     ],
+     [
+      -77.417,
+      37.2322
+     ],
+     [
+      -77.428,
+      37.243
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "layer": "road",
+    "name": "E Washington St",
+    "minutes": 8,
+    "drawn": "straight between areas"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -77.404,
+      37.219
+     ],
+     [
+      -77.3775,
+      37.2208
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "layer": "road",
+    "name": "MLK Bridge (US 1/301)",
+    "minutes": 5,
+    "drawn": "straight between areas"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -77.406,
+      37.229
+     ],
+     [
+      -77.404,
+      37.2363
+     ],
+     [
+      -77.404,
+      37.252
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "layer": "road",
+    "name": "Colonial Heights detour",
+    "minutes": 14,
+    "drawn": "straight between areas"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -77.404,
+      37.252
+     ],
+     [
+      -77.428,
+      37.243
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "layer": "depot",
+    "name": "Depot (example site)"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -77.404,
+     37.219
+    ]
+   }
+  }
+ ]
+}

@@ -1,0 +1,97 @@
+[
+  {
+    "report_id": "R01",
+    "duplicate_of": null,
+    "duplicate_score": null,
+    "related": []
+  },
+  {
+    "report_id": "R02",
+    "duplicate_of": null,
+    "duplicate_score": null,
+    "related": [
+      {
+        "report_id": "R01",
+        "similarity": 0.49,
+        "verdict": "separate_household"
+      }
+    ]
+  },
+  {
+    "report_id": "R03",
+    "duplicate_of": "R01",
+    "duplicate_score": 0.7,
+    "related": [
+      {
+        "report_id": "R01",
+        "similarity": 0.7,
+        "verdict": "likely_duplicate"
+      },
+      {
+        "report_id": "R02",
+        "similarity": 0.4,
+        "verdict": "similar_location_low_text_similarity"
+      }
+    ]
+  },
+  {
+    "report_id": "R04",
+    "duplicate_of": null,
+    "duplicate_score": null,
+    "related": []
+  },
+  {
+    "report_id": "R05",
+    "duplicate_of": null,
+    "duplicate_score": null,
+    "related": []
+  },
+  {
+    "report_id": "R06",
+    "duplicate_of": null,
+    "duplicate_score": null,
+    "related": []
+  },
+  {
+    "report_id": "R07",
+    "duplicate_of": null,
+    "duplicate_score": null,
+    "related": []
+  },
+  {
+    "report_id": "R08",
+    "duplicate_of": null,
+    "duplicate_score": null,
+    "related": []
+  },
+  {
+    "report_id": "R09",
+    "duplicate_of": null,
+    "duplicate_score": null,
+    "related": []
+  },
+  {
+    "report_id": "R10",
+    "duplicate_of": null,
+    "duplicate_score": null,
+    "related": []
+  },
+  {
+    "report_id": "R11",
+    "duplicate_of": null,
+    "duplicate_score": null,
+    "related": []
+  },
+  {
+    "report_id": "R12",
+    "duplicate_of": null,
+    "duplicate_score": null,
+    "related": []
+  },
+  {
+    "report_id": "R13",
+    "duplicate_of": null,
+    "duplicate_score": null,
+    "related": []
+  }
+]

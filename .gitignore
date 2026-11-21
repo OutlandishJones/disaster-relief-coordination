@@ -1,0 +1,11 @@
+# Secrets and local data never go in the repository.
+.env
+*.env
+!.env.example
+*.db
+*.sqlite
+*.db-journal
+__pycache__/
+*.pyc
+.venv/
+.DS_Store

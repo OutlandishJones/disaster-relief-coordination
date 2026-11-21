@@ -1,0 +1,500 @@
+[
+  {
+    "language": "en",
+    "need_type": "water",
+    "quantity": 20,
+    "neighborhood": "Rampur colony",
+    "address": "lane 3",
+    "landmark": null,
+    "household_size": 4,
+    "household_note": "2 kids and grandmother",
+    "urgency": "high",
+    "urgency_cues": [
+      "cant walk",
+      "no water since yesterday"
+    ],
+    "accessibility_needs": [
+      "elderly cannot walk"
+    ],
+    "time_window": null,
+    "missing_fields": [
+      "landmark",
+      "time_window"
+    ],
+    "confidence": {
+      "need_type": 0.95,
+      "quantity": 0.9,
+      "location": 0.7,
+      "urgency": 0.8
+    },
+    "translation_en": "Family of 4 in Rampur colony lane 3 needs 20 water bottles; elderly member immobile.",
+    "report_id": "R01",
+    "raw_text": "Need 20 water bottles at Rampur colony lane 3. 2 kids and grandma cant walk. no water since yesterday",
+    "needs_review": false,
+    "truth": {
+      "need_type": "water",
+      "quantity": 20,
+      "neighborhood": "Rampur",
+      "urgency": "high"
+    }
+  },
+  {
+    "language": "hi",
+    "need_type": "water",
+    "quantity": 10,
+    "neighborhood": "Rampur colony",
+    "address": "gali no 3",
+    "landmark": null,
+    "household_size": null,
+    "household_note": "children are young",
+    "urgency": "high",
+    "urgency_cues": [
+      "bacche chhote hain"
+    ],
+    "accessibility_needs": [],
+    "time_window": null,
+    "missing_fields": [
+      "landmark",
+      "household_size",
+      "time_window"
+    ],
+    "confidence": {
+      "need_type": 0.95,
+      "quantity": 0.9,
+      "location": 0.8,
+      "urgency": 0.85
+    },
+    "translation_en": "10 water bottles needed in Rampur colony gali no 3; young children at home.",
+    "report_id": "R02",
+    "raw_text": "pani chahiye 10 bottle, Rampur colony gali no 3, bacche chhote hain",
+    "needs_review": false,
+    "truth": {
+      "need_type": "water",
+      "quantity": 10,
+      "neighborhood": "Rampur",
+      "urgency": "high"
+    }
+  },
+  {
+    "language": "en",
+    "need_type": "water",
+    "quantity": null,
+    "neighborhood": "Rampur colony",
+    "address": "lane 3",
+    "landmark": null,
+    "household_size": null,
+    "household_note": "grandma cant walk",
+    "urgency": "high",
+    "urgency_cues": [
+      "URGENT",
+      "grandma cant walk"
+    ],
+    "accessibility_needs": [
+      "elderly cannot walk"
+    ],
+    "time_window": null,
+    "missing_fields": [
+      "quantity",
+      "address",
+      "landmark",
+      "time_window"
+    ],
+    "confidence": {
+      "need_type": 0.95,
+      "quantity": 0.1,
+      "location": 0.7,
+      "urgency": 0.85
+    },
+    "translation_en": "URGENT water needed in Rampur colony lane 3; elderly member immobile.",
+    "report_id": "R03",
+    "raw_text": "URGENT water Rampur colony lane 3, grandma cant walk!!",
+    "needs_review": false,
+    "truth": {
+      "need_type": "water",
+      "quantity": null,
+      "neighborhood": "Rampur",
+      "urgency": "high"
+    }
+  },
+  {
+    "language": "en",
+    "need_type": "blanket",
+    "quantity": 6,
+    "neighborhood": "Green Park",
+    "address": null,
+    "landmark": null,
+    "household_size": null,
+    "household_note": "2nd floor flat",
+    "urgency": "medium",
+    "urgency_cues": [
+      "Flood water in house"
+    ],
+    "accessibility_needs": [],
+    "time_window": null,
+    "missing_fields": [
+      "address",
+      "landmark",
+      "time_window"
+    ],
+    "confidence": {
+      "need_type": 0.95,
+      "quantity": 1,
+      "location": 0.6,
+      "urgency": 0.8
+    },
+    "translation_en": "6 blankets needed in Green Park; flood water in the house, family on 2nd floor.",
+    "report_id": "R04",
+    "raw_text": "Blankets x6 needed. Location: Green Park. Flood water in house, we are on 2nd floor flat.",
+    "needs_review": false,
+    "truth": {
+      "need_type": "blanket",
+      "quantity": 6,
+      "neighborhood": "Green Park",
+      "urgency": "medium"
+    }
+  },
+  {
+    "language": "en",
+    "need_type": "medicine",
+    "quantity": null,
+    "neighborhood": "Green Park",
+    "address": null,
+    "landmark": "near Green Park metro",
+    "household_size": null,
+    "household_note": "mother, diabetic",
+    "urgency": "critical",
+    "urgency_cues": [
+      "needs insulin",
+      "she is diabetic",
+      "please hurry"
+    ],
+    "accessibility_needs": [],
+    "time_window": null,
+    "missing_fields": [
+      "quantity",
+      "address",
+      "household_size",
+      "time_window"
+    ],
+    "confidence": {
+      "need_type": 0.95,
+      "quantity": 0.1,
+      "location": 0.8,
+      "urgency": 0.9
+    },
+    "translation_en": "Diabetic mother needs insulin near Green Park metro; urgent.",
+    "report_id": "R05",
+    "raw_text": "Hello, uh, my mother needs insulin, she is diabetic, we are near Green Park metro, please hurry",
+    "needs_review": false,
+    "truth": {
+      "need_type": "medicine",
+      "quantity": null,
+      "neighborhood": "Green Park",
+      "urgency": "critical"
+    }
+  },
+  {
+    "language": "es",
+    "need_type": "medicine",
+    "quantity": null,
+    "neighborhood": "Barrio Sur",
+    "address": null,
+    "landmark": "cerca de la escuela",
+    "household_size": null,
+    "household_note": "father, diabetic",
+    "urgency": "critical",
+    "urgency_cues": [
+      "urgente",
+      "diabetico"
+    ],
+    "accessibility_needs": [],
+    "time_window": null,
+    "missing_fields": [
+      "quantity",
+      "address",
+      "household_size",
+      "household_note",
+      "landmark",
+      "time_window"
+    ],
+    "confidence": {
+      "need_type": 0.9,
+      "quantity": 0.1,
+      "location": 0.5,
+      "urgency": 0.85
+    },
+    "translation_en": "Urgent medicine needed for diabetic father in Barrio Sur near the school.",
+    "report_id": "R06",
+    "raw_text": "Medicina urgente para mi papa, diabetico, Barrio Sur cerca de la escuela",
+    "needs_review": false,
+    "truth": {
+      "need_type": "medicine",
+      "quantity": null,
+      "neighborhood": "Barrio Sur",
+      "urgency": "critical"
+    }
+  },
+  {
+    "language": "es",
+    "need_type": "food",
+    "quantity": 5,
+    "neighborhood": "Barrio Sur",
+    "address": "calle 8",
+    "landmark": null,
+    "household_size": 5,
+    "household_note": null,
+    "urgency": "high",
+    "urgency_cues": [
+      "somos 5 personas"
+    ],
+    "accessibility_needs": [],
+    "time_window": null,
+    "missing_fields": [
+      "landmark",
+      "time_window"
+    ],
+    "confidence": {
+      "need_type": 0.9,
+      "quantity": 0.8,
+      "location": 0.8,
+      "urgency": 0.8
+    },
+    "translation_en": "5 people in Barrio Sur calle 8 need food.",
+    "report_id": "R07",
+    "raw_text": "Ayuda comida Barrio Sur, somos 5 personas, calle 8",
+    "needs_review": false,
+    "truth": {
+      "need_type": "food",
+      "quantity": 5,
+      "neighborhood": "Barrio Sur",
+      "urgency": "medium"
+    }
+  },
+  {
+    "language": "hi",
+    "need_type": "food",
+    "quantity": 4,
+    "neighborhood": "Green Park",
+    "address": null,
+    "landmark": "B block",
+    "household_size": 4,
+    "household_note": null,
+    "urgency": "high",
+    "urgency_cues": [
+      "khana nahi hai 2 din se"
+    ],
+    "accessibility_needs": [],
+    "time_window": null,
+    "missing_fields": [
+      "address",
+      "landmark",
+      "time_window"
+    ],
+    "confidence": {
+      "need_type": 0.9,
+      "quantity": 0.8,
+      "location": 0.6,
+      "urgency": 0.85
+    },
+    "translation_en": "4 people in Green Park B block have not had food for 2 days.",
+    "report_id": "R08",
+    "raw_text": "khana nahi hai 2 din se, Green Park B block, 4 log",
+    "needs_review": false,
+    "truth": {
+      "need_type": "food",
+      "quantity": 4,
+      "neighborhood": "Green Park",
+      "urgency": "high"
+    }
+  },
+  {
+    "language": "en",
+    "need_type": "shelter",
+    "quantity": null,
+    "neighborhood": "Rampur colony",
+    "address": null,
+    "landmark": "near temple",
+    "household_size": 6,
+    "household_note": "one wheelchair user",
+    "urgency": "high",
+    "urgency_cues": [
+      "house flooded"
+    ],
+    "accessibility_needs": [
+      "wheelchair user"
+    ],
+    "time_window": null,
+    "missing_fields": [
+      "address",
+      "time_window"
+    ],
+    "confidence": {
+      "need_type": 0.95,
+      "quantity": 0.1,
+      "location": 0.8,
+      "urgency": 0.85
+    },
+    "translation_en": "Family of 6 in Rampur colony near the temple needs shelter due to flooded house; one wheelchair user.",
+    "report_id": "R09",
+    "raw_text": "Shelter needed for family of 6, house flooded, Rampur colony near temple, one wheelchair user",
+    "needs_review": false,
+    "truth": {
+      "need_type": "shelter",
+      "quantity": 6,
+      "neighborhood": "Rampur",
+      "urgency": "high"
+    }
+  },
+  {
+    "language": "en",
+    "need_type": "transport",
+    "quantity": null,
+    "neighborhood": "Barrio Sur",
+    "address": null,
+    "landmark": "near the bridge",
+    "household_size": null,
+    "household_note": null,
+    "urgency": "high",
+    "urgency_cues": [
+      "elderly people"
+    ],
+    "accessibility_needs": [
+      "elderly people"
+    ],
+    "time_window": null,
+    "missing_fields": [
+      "address",
+      "landmark",
+      "time_window"
+    ],
+    "confidence": {
+      "need_type": 0.95,
+      "quantity": 0.1,
+      "location": 0.6,
+      "urgency": 0.8
+    },
+    "translation_en": "Transport needed to move elderly people from Barrio Sur to the shelter; road near the bridge is blocked.",
+    "report_id": "R10",
+    "raw_text": "we need transport to move elderly people from Barrio Sur to the shelter, the road near the bridge is blocked",
+    "needs_review": false,
+    "truth": {
+      "need_type": "transport",
+      "quantity": null,
+      "neighborhood": "Barrio Sur",
+      "urgency": "high"
+    }
+  },
+  {
+    "language": "hi",
+    "need_type": "blanket",
+    "quantity": 3,
+    "neighborhood": "Rampur colony",
+    "address": null,
+    "landmark": null,
+    "household_size": null,
+    "household_note": null,
+    "urgency": "medium",
+    "urgency_cues": [
+      "raat ko bahut thand hai"
+    ],
+    "accessibility_needs": [],
+    "time_window": null,
+    "missing_fields": [
+      "address",
+      "landmark",
+      "time_window"
+    ],
+    "confidence": {
+      "need_type": 0.9,
+      "quantity": 0.8,
+      "location": 0.6,
+      "urgency": 0.7
+    },
+    "translation_en": "3 blankets needed in Rampur colony; very cold at night.",
+    "report_id": "R11",
+    "raw_text": "blanket chahiye 3, Rampur colony, raat ko bahut thand hai",
+    "needs_review": false,
+    "truth": {
+      "need_type": "blanket",
+      "quantity": 3,
+      "neighborhood": "Rampur",
+      "urgency": "medium"
+    }
+  },
+  {
+    "language": "es",
+    "need_type": "water",
+    "quantity": 12,
+    "neighborhood": "Green Park",
+    "address": null,
+    "landmark": null,
+    "household_size": 12,
+    "household_note": null,
+    "urgency": "high",
+    "urgency_cues": [
+      "ya no tenemos nada"
+    ],
+    "accessibility_needs": [],
+    "time_window": null,
+    "missing_fields": [
+      "address",
+      "landmark",
+      "time_window"
+    ],
+    "confidence": {
+      "need_type": 0.9,
+      "quantity": 0.9,
+      "location": 0.6,
+      "urgency": 0.85
+    },
+    "translation_en": "12 people in Green Park need water; none available.",
+    "report_id": "R12",
+    "raw_text": "Agua para 12 personas en Green Park, ya no tenemos nada",
+    "needs_review": false,
+    "truth": {
+      "need_type": "water",
+      "quantity": 12,
+      "neighborhood": "Green Park",
+      "urgency": "high"
+    }
+  },
+  {
+    "language": "en",
+    "need_type": "water",
+    "quantity": null,
+    "neighborhood": null,
+    "address": null,
+    "landmark": null,
+    "household_size": null,
+    "household_note": null,
+    "urgency": "high",
+    "urgency_cues": [
+      "help please water"
+    ],
+    "accessibility_needs": [],
+    "time_window": null,
+    "missing_fields": [
+      "quantity",
+      "neighborhood",
+      "address",
+      "household_size",
+      "household_note"
+    ],
+    "confidence": {
+      "need_type": 0.9,
+      "quantity": 0.1,
+      "location": 0.1,
+      "urgency": 0.8
+    },
+    "translation_en": "Help needed for water.",
+    "report_id": "R13",
+    "raw_text": "help please water",
+    "needs_review": true,
+    "truth": {
+      "need_type": "water",
+      "quantity": null,
+      "neighborhood": null,
+      "urgency": "medium"
+    }
+  }
+]

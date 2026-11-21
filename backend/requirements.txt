@@ -1,0 +1,4 @@
+fastapi>=0.110
+uvicorn>=0.29
+pydantic>=2.6
+httpx>=0.27     # only needed for tests/test_api.py (FastAPI TestClient)

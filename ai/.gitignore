@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.venv/
+.env
+# Real tweets downloaded by src/sample_humaid.py: run it locally, never commit the output.
+data/humaid_sample.json
+data/humaid_extracted.json

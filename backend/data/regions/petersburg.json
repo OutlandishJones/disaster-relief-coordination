@@ -1,0 +1,285 @@
+{
+ "name": "Petersburg / Ettrick, VA",
+ "map_dir": "map_petersburg",
+ "basemap": {
+  "url": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+  "attribution": "Street map © OpenStreetMap contributors"
+ },
+ "notes": "Area outlines are approximate and hand-placed; routes are straight lines with estimated times. Sample reports are synthetic, with street names but no house numbers.",
+ "zones": [
+  {
+   "id": "ettrick",
+   "name": "Ettrick (VSU)",
+   "aliases": [
+    "vsu",
+    "virginia state university",
+    "virginia state",
+    "chesterfield ave",
+    "river rd"
+   ]
+  },
+  {
+   "id": "battersea",
+   "name": "Battersea / West End",
+   "aliases": [
+    "west end",
+    "upper appomattox st",
+    "upper appomattox"
+   ]
+  },
+  {
+   "id": "oldtowne",
+   "name": "Old Towne",
+   "aliases": [
+    "old towne",
+    "old town",
+    "downtown petersburg",
+    "downtown",
+    "old st",
+    "old street",
+    "bank st",
+    "e bank st",
+    "grove ave",
+    "n sycamore st",
+    "river st",
+    "market st"
+   ]
+  },
+  {
+   "id": "pocahontas",
+   "name": "Pocahontas Island",
+   "aliases": [
+    "pocahontas island",
+    "pocahontas st",
+    "witten st",
+    "rolfe st",
+    "logan st",
+    "sapony st"
+   ]
+  },
+  {
+   "id": "lakemont",
+   "name": "Lakemont",
+   "aliases": [
+    "slagle ave",
+    "hare st",
+    "culpeper ave",
+    "henrico st",
+    "whitehill dr",
+    "appleton st",
+    "gibbons st",
+    "gibbons ave"
+   ]
+  }
+ ],
+ "nodes": {
+  "depot": {
+   "label": "Depot (example site)",
+   "lon": -77.404,
+   "lat": 37.219
+  },
+  "oldtowne": {
+   "label": "Old Towne",
+   "lon": -77.406,
+   "lat": 37.229
+  },
+  "pocahontas": {
+   "label": "Pocahontas Island",
+   "lon": -77.399,
+   "lat": 37.2388
+  },
+  "battersea": {
+   "label": "Battersea",
+   "lon": -77.4245,
+   "lat": 37.2268
+  },
+  "ettrick": {
+   "label": "Ettrick",
+   "lon": -77.428,
+   "lat": 37.243
+  },
+  "lakemont": {
+   "label": "Lakemont",
+   "lon": -77.3775,
+   "lat": 37.2208
+  },
+  "colonial": {
+   "label": "Colonial Heights",
+   "lon": -77.404,
+   "lat": 37.252
+  }
+ },
+ "roads": [
+  [
+   "N Sycamore St",
+   "depot",
+   "oldtowne",
+   5
+  ],
+  [
+   "Pocahontas St bridge",
+   "oldtowne",
+   "pocahontas",
+   3
+  ],
+  [
+   "W Washington St",
+   "depot",
+   "battersea",
+   7
+  ],
+  [
+   "Upper Appomattox St",
+   "oldtowne",
+   "battersea",
+   4
+  ],
+  [
+   "Campbell's Bridge",
+   "battersea",
+   "ettrick",
+   5
+  ],
+  [
+   "E Washington St",
+   "depot",
+   "lakemont",
+   8
+  ],
+  [
+   "MLK Bridge (US 1/301)",
+   "oldtowne",
+   "colonial",
+   5
+  ],
+  [
+   "Colonial Heights detour",
+   "colonial",
+   "ettrick",
+   14
+  ]
+ ],
+ "stock": {
+  "water": 20,
+  "food": 12,
+  "medicine": 2,
+  "blankets": 8
+ },
+ "reports": [
+  {
+   "zone": "pocahontas",
+   "lang": "en",
+   "need": "water",
+   "qty": 8,
+   "urg": "high",
+   "win": 30,
+   "conf": 0.94,
+   "miss": [],
+   "last4": "0117",
+   "addr": "Witten St, Pocahontas Island",
+   "access": "Needs ground-floor drop-off (mobility)",
+   "en": "",
+   "text": "Water came up over Witten St overnight. My grandmother is 81 and we have had no clean water since last night. 4 of us."
+  },
+  {
+   "zone": "oldtowne",
+   "lang": "es",
+   "need": "medicine",
+   "qty": 2,
+   "urg": "high",
+   "win": 25,
+   "conf": 0.81,
+   "miss": [
+    "Exact street address"
+   ],
+   "last4": "0132",
+   "addr": "Old Towne, Petersburg",
+   "en": "We need insulin for my husband. The power is out in Old Towne and we have no refrigerator.",
+   "text": "Necesitamos insulina para mi esposo. Se fue la luz en Old Towne y no tenemos refrigerador."
+  },
+  {
+   "zone": "ettrick",
+   "lang": "vi",
+   "need": "blankets",
+   "qty": 6,
+   "urg": "medium",
+   "win": 60,
+   "conf": 0.88,
+   "miss": [],
+   "last4": "0165",
+   "addr": "Chesterfield Ave, Ettrick",
+   "en": "We need blankets for 6 people in Ettrick.",
+   "text": "Chúng tôi cần chăn cho 6 người ở Ettrick."
+  },
+  {
+   "zone": "lakemont",
+   "lang": "en",
+   "need": "shelter",
+   "qty": 3,
+   "urg": "high",
+   "win": 40,
+   "conf": 0.9,
+   "miss": [],
+   "last4": "0110",
+   "addr": "Slagle Ave, Lakemont",
+   "en": "",
+   "text": "Slagle Ave is flooded again and the water is inside the house. 3 of us need somewhere to stay tonight."
+  },
+  {
+   "zone": "lakemont",
+   "lang": "es",
+   "need": "food",
+   "qty": 5,
+   "urg": "medium",
+   "win": 60,
+   "conf": 0.86,
+   "miss": [],
+   "last4": "0181",
+   "addr": "Slagle Ave, Lakemont",
+   "en": "Family of 5 on Slagle Ave. The kids haven't eaten since this morning.",
+   "text": "Somos una familia de 5 en Slagle Ave. Los niños no han comido desde la mañana."
+  },
+  {
+   "zone": "oldtowne",
+   "lang": "es",
+   "need": "medicine",
+   "qty": 2,
+   "urg": "high",
+   "win": 25,
+   "conf": 0.72,
+   "miss": [],
+   "last4": "0132",
+   "addr": "Old Towne, Petersburg",
+   "en": "My husband needs insulin, please hurry.",
+   "text": "Mi esposo necesita insulina, por favor, rápido."
+  },
+  {
+   "zone": "battersea",
+   "lang": "en",
+   "need": "food",
+   "qty": 10,
+   "urg": "high",
+   "win": 45,
+   "conf": 0.9,
+   "miss": [],
+   "last4": "0108",
+   "addr": "Upper Appomattox St, West End",
+   "en": "",
+   "text": "Church basement off Upper Appomattox St is flooded. Food for 10 people, children and older adults."
+  },
+  {
+   "zone": "ettrick",
+   "lang": "en",
+   "need": "blankets",
+   "qty": 4,
+   "urg": "low",
+   "win": 90,
+   "conf": 0.92,
+   "miss": [],
+   "last4": "0149",
+   "addr": "River Rd, Ettrick",
+   "en": "",
+   "text": "Power is out near VSU and it is cold. Need blankets for 4 of us."
+  }
+ ]
+}
